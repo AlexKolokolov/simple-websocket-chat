@@ -1,8 +1,5 @@
 package ua.com.chat.controller;
 
-
-import org.springframework.stereotype.Controller;
-
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
@@ -17,7 +14,6 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * Created by kolokolov on 5/14/16.
  */
 
-@Controller
 @ServerEndpoint(value = "/websocket/chat/{nickname}")
 public class Chat {
     private String nickname;

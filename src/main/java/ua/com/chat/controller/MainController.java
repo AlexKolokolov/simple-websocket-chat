@@ -1,7 +1,6 @@
 package ua.com.chat.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,17 +14,10 @@ import ua.com.chat.model.User;
 
 @Controller
 public class MainController {
-    private int visitorCount = 0;
 
     @RequestMapping("/")
     public ModelAndView index() {
         return new ModelAndView("index", "user", new User());
-    }
-
-    @RequestMapping("visitors")
-    public String visitors(Model model) {
-        model.addAttribute("visitor", visitorCount++);
-        return "visitor_counter";
     }
 
     @RequestMapping(value = "chat", method = RequestMethod.POST)

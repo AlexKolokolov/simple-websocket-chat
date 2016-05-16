@@ -2,7 +2,6 @@ package ua.com.chat.controller;
 
 
 import org.springframework.stereotype.Controller;
-import ua.com.chat.model.User;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
@@ -44,7 +43,6 @@ public class Chat {
 
     @OnMessage
     public void incoming(String message) {
-        // Never trust the client
         String formattedMessage = String.format("%s : %s", nickname, message);
         broadcast(formattedMessage);
     }

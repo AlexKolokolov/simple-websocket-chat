@@ -72,9 +72,9 @@
 
         Chat.initialize = function () {
             if (window.location.protocol == 'http:') {
-                Chat.connect('ws://chat-coderlibrary.rhcloud.com/websocket/chat/${user.nickname}');
+                Chat.connect('ws://' + window.location.host + '/websocket/chat/${user.nickname}');
             } else {
-                Chat.connect('wss://chat-coderlibrary.rhcloud.com/websocket/chat/${user.nickname}');
+                Chat.connect('wss://' + window.location.host + '/websocket/chat/${user.nickname}');
             }
         };
 

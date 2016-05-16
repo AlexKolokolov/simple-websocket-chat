@@ -72,9 +72,9 @@
 
         Chat.initialize = function () {
             if (window.location.protocol == 'http:') {
-                Chat.connect('ws://localhost:8080/websocket/chat/${user.nickname}');
+                Chat.connect('ws://' + window.location.host + '/websocket/chat/${user.nickname}');
             } else {
-                Chat.connect('wss://localhost:8080/websocket/chat/${user.nickname}');
+                Chat.connect('wss://' + window.location.host + '/websocket/chat/${user.nickname}');
             }
         };
 

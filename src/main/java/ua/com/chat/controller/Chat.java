@@ -32,8 +32,7 @@ public class Chat {
     @OnClose
     public void end() {
         connections.remove(this);
-        String message = String.format("* %s %s",
-        nickname, "has disconnected.");
+        String message = String.format("* %s %s", nickname, "has disconnected.");
         broadcast(message);
     }
 

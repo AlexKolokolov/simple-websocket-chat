@@ -73,9 +73,9 @@
 
         Chat.initialize = function () {
             if (window.location.protocol == 'http:') {
-                Chat.connect('ws://' + window.location.host + '/websocket/chat/${user.nickname}');
+                Chat.connect('ws://' + window.location.host + ':8000/websocket/chat/${user.nickname}');
             } else {
-                Chat.connect('wss://' + window.location.host + '/websocket/chat/${user.nickname}');
+                Chat.connect('wss://' + window.location.host + ':8443/websocket/chat/${user.nickname}');
             }
         };
 

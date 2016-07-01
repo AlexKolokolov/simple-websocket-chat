@@ -25,7 +25,7 @@
     </head>
     <body>
         <h2>Hello, ${user.nickname}!</h2>
-        <div class="noscript"><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websockets rely on
+        <div class="noscript"><h2>Seems your browser doesn't support Javascript! Websockets rely on
             Javascript being enabled. Please enable
             Javascript and reload this page!</h2>
         </div>

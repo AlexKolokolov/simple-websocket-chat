@@ -18,7 +18,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 public class Chat {
     private String nickname;
     private Session session;
-    private static final Set<Chat> connections = new CopyOnWriteArraySet<>();
+    private static final Set<Chat> connections = new CopyOnWriteArraySet<Chat>();
 
     @OnOpen
     public void start(Session session, @PathParam("nickname") String nickname) {

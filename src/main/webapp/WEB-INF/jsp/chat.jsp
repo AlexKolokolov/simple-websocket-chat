@@ -36,7 +36,6 @@
 
     </style>
     <script type="application/javascript">
-        "use strict";
 
         var Chat = {};
 
@@ -72,10 +71,17 @@
         });
 
         Chat.initialize = function () {
+            var wsPort = '';
+            var wssPort = '';
+            var locationHost = window.location.host;
+            if (locationHost != 'localhost:8080') {
+                wsPort = ':8000';
+                wssPort = ':8443';
+            }
             if (window.location.protocol == 'http:') {
-                Chat.connect('ws://' + window.location.host + ':8000/websocket/chat/${user.nickname}');
+                Chat.connect('ws://' + locationHost + wsPort + '/websocket/chat/${user.nickname}');
             } else {
-                Chat.connect('wss://' + window.location.host + ':8443/websocket/chat/${user.nickname}');
+                Chat.connect('wss://' + locationHost + wssPort + '/websocket/chat/${user.nickname}');
             }
         };
 

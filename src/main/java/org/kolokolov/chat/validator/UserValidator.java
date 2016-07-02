@@ -30,12 +30,12 @@ public class UserValidator implements Validator {
         if (accountService.getAccountByLogin(user.getNickname()) != null) {
             errors.rejectValue("nickname", "error.nickname", "Nickname is already in use");
         }
-        if (user.getNickname().length() < 3) {
+        if (!user.getNickname().isEmpty() && user.getNickname().length() < 3) {
             errors.rejectValue("nickname",
                     "error.nickname",
                     "Nickname must be at least 3 characters long");
         }
-        if (user.getPassword().length() < 6) {
+        if (!user.getPassword().isEmpty() && user.getPassword().length() < 6) {
             errors.rejectValue("password",
                     "error.password",
                     "Password must be at least 6 symbols long");

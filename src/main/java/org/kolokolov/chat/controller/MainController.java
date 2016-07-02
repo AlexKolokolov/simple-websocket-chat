@@ -1,6 +1,7 @@
 package org.kolokolov.chat.controller;
 
 import org.kolokolov.chat.service.AccountService;
+import org.kolokolov.chat.validator.LogInValidator;
 import org.kolokolov.chat.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,9 @@ public class MainController {
     @Autowired
     private UserValidator userValidator;
 
+    @Autowired
+    private LogInValidator logInValidator;
+
     @RequestMapping("/")
     public ModelAndView index() {
         return new ModelAndView("index", "user", new UserProfile());
@@ -30,14 +34,11 @@ public class MainController {
 
     @RequestMapping(value = "chat", method = RequestMethod.POST)
     public ModelAndView chat(@ModelAttribute("user") UserProfile user, BindingResult bindingResult) {
+        logInValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
-            System.out.println(bindingResult.getFieldError());
+            return new ModelAndView("index", "user", user);
         }
-        if (checkUser(user)) {
-            return new ModelAndView("chat", "user", user);
-        } else {
-            return new ModelAndView("index", "user", new UserProfile());
-        }
+        return new ModelAndView("chat", "user", user);
     }
 
     @RequestMapping(value = "regForm")
@@ -53,12 +54,5 @@ public class MainController {
         }
         accountService.addAccount(user);
         return new ModelAndView("regconfirm", "user", user);
-    }
-
-    private boolean checkUser(UserProfile user) {
-        UserProfile account = accountService.getAccountByLogin(user.getNickname());
-        if (account == null) return false;
-        if (!account.getPassword().equals(user.getPassword())) return false;
-        return true;
     }
 }

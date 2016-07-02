@@ -2,8 +2,6 @@ package org.kolokolov.chat.model;
 
 import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.Size;
-
 /**
  * Created by kolokolov on 5/14/16.
  */
@@ -11,17 +9,21 @@ import javax.validation.constraints.Size;
 @Component
 public class UserProfile {
 
-    @Size(min=3, message = "Nickname must be at least 3 characters long")
     private String nickname;
-
-    @Size(min=6, message = "Password must be at least 6 symbols long")
     private String password;
+    private String confirmPassword;
 
     public UserProfile() {}
 
     public UserProfile(String nickname, String password) {
         this.nickname = nickname;
         this.password = password;
+    }
+
+    public UserProfile(String nickname, String password, String confirmPassword) {
+        this.nickname = nickname;
+        this.password = password;
+        this.confirmPassword = confirmPassword;
     }
 
     public String getNickname() {
@@ -38,5 +40,13 @@ public class UserProfile {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }

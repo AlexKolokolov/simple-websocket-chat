@@ -40,5 +40,10 @@ public class UserValidator implements Validator {
                     "error.password",
                     "Password must be at least 6 symbols long");
         }
+        if (!user.getConfirmPassword().equals(user.getPassword())) {
+            errors.rejectValue("confirmPassword",
+                    "error.confirmPassword",
+                    "Passwords must match");
+        }
     }
 }

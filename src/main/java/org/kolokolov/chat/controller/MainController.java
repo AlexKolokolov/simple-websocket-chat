@@ -11,12 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.kolokolov.chat.model.UserProfile;
 
-import javax.validation.Valid;
-
 /**
  * Created by Administrator on 17.02.2016.
  */
-
 @Controller
 public class MainController {
 
@@ -49,10 +46,9 @@ public class MainController {
     }
 
     @RequestMapping(value = "signUp", method = RequestMethod.POST)
-    public ModelAndView sigUp(@Valid @ModelAttribute("user") UserProfile user, BindingResult bindingResult) {
+    public ModelAndView sigUp(@ModelAttribute("user") UserProfile user, BindingResult bindingResult) {
         userValidator.validate(user, bindingResult);
-        if (bindingResult.hasErrors() ||
-                accountService.getAccountByLogin(user.getNickname()) != null) {
+        if (bindingResult.hasErrors()) {
             return new ModelAndView("regform", "user", user);
         }
         accountService.addAccount(user);

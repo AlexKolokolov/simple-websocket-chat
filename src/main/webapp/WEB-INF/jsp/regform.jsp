@@ -26,6 +26,11 @@
             <td><form:errors path="password" /></td>
         </tr>
         <tr>
+            <td>Confirm password:</td>
+            <td><form:password path="confirmPassword" placeholder="passwords must match" /></td>
+            <td><form:errors path="confirmPassword" /></td>
+        </tr>
+        <tr>
             <td colspan="2"><input type="submit" value="Sign Up"></td>
         </tr>
     </table>

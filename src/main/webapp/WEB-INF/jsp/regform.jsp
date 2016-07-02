@@ -22,7 +22,7 @@
         </tr>
         <tr>
             <td>Password:</td>
-            <td><form:input path="password" /></td>
+            <td><form:password path="password" /></td>
             <td>6 digits min</td>
         </tr>
         <tr>

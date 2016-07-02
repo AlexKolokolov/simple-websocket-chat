@@ -52,7 +52,7 @@ public class MainController {
             return new ModelAndView("regform", "user", user);
         }
         accountService.addAccount(user);
-        return new ModelAndView("index", "user", new UserProfile());
+        return new ModelAndView("regconfirm", "user", user);
     }
 
     private boolean checkUser(UserProfile user) {

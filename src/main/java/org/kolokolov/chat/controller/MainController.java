@@ -1,6 +1,7 @@
 package org.kolokolov.chat.controller;
 
 import org.kolokolov.chat.service.AccountService;
+import org.kolokolov.chat.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.kolokolov.chat.model.UserProfile;
+
+import javax.validation.Valid;
 
 /**
  * Created by Administrator on 17.02.2016.
@@ -20,9 +23,8 @@ public class MainController {
     @Autowired
     private AccountService accountService;
 
-    public void setAccountService(AccountService accountService) {
-        this.accountService = accountService;
-    }
+    @Autowired
+    private UserValidator userValidator;
 
     @RequestMapping("/")
     public ModelAndView index() {
@@ -47,14 +49,11 @@ public class MainController {
     }
 
     @RequestMapping(value = "signUp", method = RequestMethod.POST)
-    public ModelAndView sigUp(@ModelAttribute("user") UserProfile user, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            System.out.println(bindingResult.getFieldError());
-        }
-        if (user.getNickname().length() < 3 ||
-                user.getPassword().length() < 6 ||
+    public ModelAndView sigUp(@Valid @ModelAttribute("user") UserProfile user, BindingResult bindingResult) {
+        userValidator.validate(user, bindingResult);
+        if (bindingResult.hasErrors() ||
                 accountService.getAccountByLogin(user.getNickname()) != null) {
-            return new ModelAndView("regform");
+            return new ModelAndView("regform", "user", user);
         }
         accountService.addAccount(user);
         return new ModelAndView("index", "user", new UserProfile());

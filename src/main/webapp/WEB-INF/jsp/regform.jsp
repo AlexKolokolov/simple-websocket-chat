@@ -17,13 +17,13 @@
     <table>
         <tr>
             <td>Nickname:</td>
-            <td><form:input path="nickname" /></td>
-            <td>3 symbols min</td>
+            <td><form:input path="nickname" placeholder="3 characters min" /></td>
+            <td><form:errors path="nickname" /></td>
         </tr>
         <tr>
             <td>Password:</td>
-            <td><form:password path="password" /></td>
-            <td>6 digits min</td>
+            <td><form:password path="password" placeholder="6 symbols min" /></td>
+            <td><form:errors path="password" /></td>
         </tr>
         <tr>
             <td colspan="2"><input type="submit" value="Sign Up"></td>

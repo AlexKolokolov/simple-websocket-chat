@@ -2,13 +2,19 @@ package org.kolokolov.chat.model;
 
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.Size;
+
 /**
  * Created by kolokolov on 5/14/16.
  */
 
 @Component
 public class UserProfile {
+
+    @Size(min=3, message = "Nickname must be at least 3 characters long")
     private String nickname;
+
+    @Size(min=6, message = "Password must be at least 6 symbols long")
     private String password;
 
     public UserProfile() {}

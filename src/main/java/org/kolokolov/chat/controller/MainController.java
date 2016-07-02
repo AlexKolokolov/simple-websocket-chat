@@ -51,7 +51,9 @@ public class MainController {
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getFieldError());
         }
-        if (user.getNickname().length() < 3 || user.getPassword().length() < 6) {
+        if (user.getNickname().length() < 3 ||
+                user.getPassword().length() < 6 ||
+                accountService.getAccountByLogin(user.getNickname()) != null) {
             return new ModelAndView("regform");
         }
         accountService.addAccount(user);

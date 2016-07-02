@@ -18,10 +18,12 @@
         <tr>
             <td>Nickname:</td>
             <td><form:input path="nickname" /></td>
+            <td>3 symbols min</td>
         </tr>
         <tr>
             <td>Password:</td>
             <td><form:input path="password" /></td>
+            <td>6 digits min</td>
         </tr>
         <tr>
             <td colspan="2"><input type="submit" value="Sign Up"></td>

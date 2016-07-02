@@ -7,13 +7,13 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class User {
+public class UserProfile {
     private String nickname;
     private String password;
 
-    public User() {}
+    public UserProfile() {}
 
-    public User(String nickname, String password) {
+    public UserProfile(String nickname, String password) {
         this.nickname = nickname;
         this.password = password;
     }

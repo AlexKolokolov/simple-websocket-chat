@@ -9,11 +9,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-    <title>Welcome</title>
+    <title>Registration form</title>
 </head>
 <body>
-<h1>Chat</h1>
-<form:form method="post" modelAttribute="user" action="/chat">
+<h1>Registration form</h1>
+<form:form method="post" modelAttribute="user" action="signUp">
     <table>
         <tr>
             <td>Nickname:</td>
@@ -24,10 +24,10 @@
             <td><form:input path="password" /></td>
         </tr>
         <tr>
-            <td colspan="2"><input type="submit" value="Chat"></td>
+            <td colspan="2"><input type="submit" value="Sign Up"></td>
         </tr>
     </table>
 </form:form>
-<a href="/regForm">Get registered!</a>
+<a href="/">To main page</a>
 </body>
 </html>

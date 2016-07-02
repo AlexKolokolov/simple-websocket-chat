@@ -1,0 +1,30 @@
+package org.kolokolov.chat.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import org.kolokolov.chat.model.User;
+
+/**
+ * Created by Administrator on 17.02.2016.
+ */
+
+@Controller
+public class MainController {
+
+    @RequestMapping("/")
+    public ModelAndView index() {
+        return new ModelAndView("index", "user", new User());
+    }
+
+    @RequestMapping(value = "chat", method = RequestMethod.POST)
+    public ModelAndView chat(@ModelAttribute("user") User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getFieldError());
+        }
+        return new ModelAndView("chat", "user", user);
+    }
+}

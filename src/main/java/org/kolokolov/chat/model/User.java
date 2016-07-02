@@ -1,4 +1,4 @@
-package ua.com.chat.model;
+package org.kolokolov.chat.model;
 
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package ua.com.chat.controller;
+package org.kolokolov.chat.controller;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;

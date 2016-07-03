@@ -29,8 +29,14 @@ Chat.connect = (function (host) {
         Console.log('Info: WebSocket closed.');
     };
 
-    Chat.socket.onmessage = function (message) {
-        Console.log(message.data);
+    Chat.socket.onmessage = function (event) {
+        var message = JSON.parse(event.data);
+        var type = message.type;
+        if (type === "message") {
+            Console.log(message.body);
+        } else {
+            UserList.log(message.body);
+        }
     };
 });
 
@@ -57,12 +63,24 @@ Chat.sendMessage = (function () {
     }
 });
 
+var UserList = {}
+
+UserList.log = (function (userList) {
+    var loggedUsers = document.getElementById('loggedUsers');
+    var p = document.createElement('p');
+    p.style.wordWrap = 'break-word';
+    p.innerHTML = userList;
+    while (loggedUsers.firstChild) {
+        loggedUsers.removeChild(loggedUsers.firstChild)
+    }
+    loggedUsers.appendChild(p);
+});
+
 var Console = {};
 
 Console.log = (function (message) {
     var console = document.getElementById('console');
     var p = document.createElement('p');
-    p.style.wordWrap = 'break-word';
     p.innerHTML = message;
     console.appendChild(p);
     while (console.childNodes.length > 25) {

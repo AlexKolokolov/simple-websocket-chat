@@ -24,19 +24,25 @@
 
     </head>
     <body>
-        <h2>Hello, ${user.nickname}!</h2>
-        <div class="noscript">
-            <h2>Seems your browser doesn't support Javascript!
-            Websockets rely on Javascript being enabled.
-            Please enable Javascript and reload this page!</h2>
-        </div>
-        <div>
-            <div id="console-container">
-                <div id="console"/>
+        <div id="main">
+            <h2>Hello, ${user.nickname}!</h2>
+            <div class="noscript">
+                <h2>Seems your browser doesn't support Javascript!
+                Websockets rely on Javascript being enabled.
+                Please enable Javascript and reload this page!</h2>
             </div>
-            <p>
-                <input type="text" placeholder="type and press enter to chat" id="chat"/>
-            </p>
+            <div>
+                <div id="console-container">
+                    <div id="console"></div>
+                </div>
+                <p>
+                    <input type="text" placeholder="type and press enter to chat" id="chat"/>
+                </p>
+            </div>
+        </div>
+        <div id="aside">
+            <h3>Users on-line</h3>
+            <div id="loggedUsers"></div>
         </div>
     </body>
 </html>

@@ -1,3 +1,8 @@
+#main {
+    width: 650px;
+    float: left;
+}
+
 input#chat {
     width: 610px
 }
@@ -6,7 +11,7 @@ input#chat {
     width: 600px;
 }
 
-#console {
+#console, #loggedUsers {
     border: 1px solid #CCCCCC;
     border-right-color: #999999;
     border-bottom-color: #999999;
@@ -16,9 +21,19 @@ input#chat {
     width: 100%;
 }
 
-#console p {
+#console p, #loggedUsers p {
     padding: 0;
     margin: 0;
+}
+
+#aside {
+    float: left;
+}
+
+#loggedUsers {
+    height: 340px;
+    width: 150px;
+    margin-top: 25px;
 }
 
 .noscript h2 {

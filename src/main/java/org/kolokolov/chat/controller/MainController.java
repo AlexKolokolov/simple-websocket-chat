@@ -1,6 +1,7 @@
 package org.kolokolov.chat.controller;
 
 import org.kolokolov.chat.service.AccountService;
+import org.kolokolov.chat.service.PasswordEncryptor;
 import org.kolokolov.chat.validator.LogInValidator;
 import org.kolokolov.chat.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class MainController {
     @Autowired
     private LogInValidator logInValidator;
 
+    @Autowired
+    private PasswordEncryptor passwordEncryptor;
+
     @RequestMapping("/")
     public ModelAndView index() {
         return new ModelAndView("index", "user", new UserProfile());
@@ -52,6 +56,8 @@ public class MainController {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("regform", "user", user);
         }
+        user.setConfirmPassword(null);
+        passwordEncryptor.encryptPassword(user);
         accountService.addAccount(user);
         return new ModelAndView("regconfirm", "user", user);
     }

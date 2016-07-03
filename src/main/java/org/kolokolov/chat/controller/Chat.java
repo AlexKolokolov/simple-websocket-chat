@@ -6,42 +6,37 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by kolokolov on 5/14/16.
  */
-
 @ServerEndpoint(value = "/websocket/chat/{nickname}")
 public class Chat {
     private String nickname;
     private Session session;
-    private static final Set<Chat> connections = new CopyOnWriteArraySet<>();
-    private static String userList = "";
+    private static final Map<String, Chat> connections = new ConcurrentHashMap<>();
 
-    public String getNickname() {
-        return nickname;
+    public static Map<String, Chat> getConnections() {
+        return connections;
     }
 
     @OnOpen
     public void start(Session session, @PathParam("nickname") String nickname) {
         this.nickname = nickname;
         this.session = session;
-        connections.add(this);
-        updateUserList();
-        broadcast(new Message("userList", userList).toJson());
+        connections.put(this.nickname, this);
+        broadcast(new Message("userList", getLoggedUsersList()).toJson());
 
         String message = String.format("* %s %s", nickname, "has joined.");
         broadcast(new Message("message", message).toJson());
-
     }
 
     @OnClose
     public void end() {
-        connections.remove(this);
-        updateUserList();
-        broadcast(new Message("userList", userList).toJson());
+        connections.remove(this.nickname);
+        broadcast(new Message("userList", getLoggedUsersList()).toJson());
         String message = String.format("* %s %s", nickname, "has disconnected.");
         broadcast(new Message("message", message).toJson());
     }
@@ -53,31 +48,30 @@ public class Chat {
     }
 
     private static void broadcast(String msg) {
-        for (Chat client : connections) {
+        for (Map.Entry<String, Chat> client : connections.entrySet()) {
             try {
                 synchronized (client) {
-                    client.session.getBasicRemote().sendText(msg);
+                    client.getValue().session.getBasicRemote().sendText(msg);
                 }
             } catch (IOException e) {
-                connections.remove(client);
-                updateUserList();
-                broadcast(new Message("userList", userList).toJson());
+                connections.remove(client.getKey());
+                broadcast(new Message("userList", getLoggedUsersList()).toJson());
                 try {
-                    client.session.close();
+                    client.getValue().session.close();
                 } catch (IOException e1) {
                     // Ignore
                 }
-                String message = String.format("* %s %s", client.nickname, "has been disconnected.");
+                String message = String.format("* %s %s", client.getKey(), "has been disconnected.");
                 Message jsonMessage = new Message("message", message);
                 broadcast(jsonMessage.toJson());
             }
         }
     }
 
-    private static synchronized void updateUserList() {
-        userList = "";
-        for (Chat client : connections) {
-           userList += client.getNickname() + "</br>";
-        }
+    private static synchronized String getLoggedUsersList() {
+        String userList = "";
+        for (String nickname : connections.keySet())
+            userList += nickname + "</br>";
+        return userList;
     }
 }

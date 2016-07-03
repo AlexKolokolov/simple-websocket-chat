@@ -1,12 +1,12 @@
 package org.kolokolov.chat.validator;
 
+import org.kolokolov.chat.controller.Chat;
 import org.kolokolov.chat.model.UserProfile;
 import org.kolokolov.chat.service.AccountService;
 import org.kolokolov.chat.service.PasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 /**
@@ -31,7 +31,10 @@ public class LogInValidator implements Validator {
         UserProfile user = (UserProfile) o;
         UserProfile account = accountService.getAccountByLogin(user.getNickname());
         if (account == null) {
-            errors.rejectValue("nickname", "error.nickname", "There is no user with such nickname");
+            errors.rejectValue("nickname", "error.nickname", "There is no user with nickname " + user.getNickname());
+        }
+        if (account != null && Chat.getConnections().containsKey(user.getNickname())) {
+            errors.rejectValue("nickname", "error.nickname", "User " + user.getNickname() + " is already logged in!");
         }
         passwordEncryptor.encryptPassword(user);
         if (account != null && !account.getPassword().equals(user.getPassword())) {

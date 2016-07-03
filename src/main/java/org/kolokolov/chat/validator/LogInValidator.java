@@ -32,15 +32,15 @@ public class LogInValidator implements Validator {
         UserProfile account = accountService.getAccountByLogin(user.getNickname());
         if (account == null) {
             errors.rejectValue("nickname", "error.nickname", "There is no user with nickname " + user.getNickname());
-        }
-        if (account != null && Chat.getConnections().containsKey(user.getNickname())) {
+        } else if (Chat.getConnections().containsKey(user.getNickname())) {
             errors.rejectValue("nickname", "error.nickname", "User " + user.getNickname() + " is already logged in!");
-        }
-        passwordEncryptor.encryptPassword(user);
-        if (account != null && !account.getPassword().equals(user.getPassword())) {
-            errors.rejectValue("password",
-                    "error.password",
-                    "Wrong password!");
+        } else {
+            passwordEncryptor.encryptPassword(user);
+            if (!account.getPassword().equals(user.getPassword())) {
+                errors.rejectValue("password",
+                        "error.password",
+                        "Wrong password!");
+            }
         }
     }
 }

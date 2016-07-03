@@ -12,7 +12,7 @@
     <title>Registration success</title>
 </head>
 <body>
-<h1>Registration success!</h1>
+<h1>Registration succeeded!</h1>
 <h2>Hello, ${user.nickname}!</h2>
 <p>Now you can enter the chat with your login and password</p>
 <form:form method="post" modelAttribute="user" action="/chat">

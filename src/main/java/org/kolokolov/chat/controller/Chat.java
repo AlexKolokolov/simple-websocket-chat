@@ -1,6 +1,7 @@
 package org.kolokolov.chat.controller;
 
 import org.kolokolov.chat.model.Message;
+import org.kolokolov.chat.model.MessageType;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
@@ -27,24 +28,23 @@ public class Chat {
         this.nickname = nickname;
         this.session = session;
         connections.put(this.nickname, this);
-        broadcast(new Message("userList", getLoggedUsersList()).toJson());
+        broadcast(new Message(MessageType.USER_LIST, getLoggedUsersList()).toJson());
 
-        String message = String.format("* %s %s", nickname, "has joined.");
-        broadcast(new Message("message", message).toJson());
+        String message = String.format("%s %s", nickname, "has joined.");
+        broadcast(new Message(MessageType.MESSAGE, message, "[SERVER]").toJson());
     }
 
     @OnClose
     public void end() {
         connections.remove(this.nickname);
-        broadcast(new Message("userList", getLoggedUsersList()).toJson());
-        String message = String.format("* %s %s", nickname, "has disconnected.");
-        broadcast(new Message("message", message).toJson());
+        broadcast(new Message(MessageType.USER_LIST, getLoggedUsersList()).toJson());
+        String message = String.format("%s %s", nickname, "has disconnected.");
+        broadcast(new Message(MessageType.MESSAGE, message, "[SERVER]").toJson());
     }
 
     @OnMessage
     public void incoming(String message) {
-        String formattedMessage = String.format("%s : %s", nickname, message);
-        broadcast(new Message("message", formattedMessage).toJson());
+        broadcast(new Message(MessageType.MESSAGE, message, nickname).toJson());
     }
 
     private static void broadcast(String msg) {
@@ -55,14 +55,14 @@ public class Chat {
                 }
             } catch (IOException e) {
                 connections.remove(client.getKey());
-                broadcast(new Message("userList", getLoggedUsersList()).toJson());
+                broadcast(new Message(MessageType.MESSAGE, getLoggedUsersList()).toJson());
                 try {
                     client.getValue().session.close();
                 } catch (IOException e1) {
                     // Ignore
                 }
-                String message = String.format("* %s %s", client.getKey(), "has been disconnected.");
-                Message jsonMessage = new Message("message", message);
+                String message = String.format("%s %s", client.getKey(), "has been disconnected.");
+                Message jsonMessage = new Message(MessageType.MESSAGE, message, "[SERVER]");
                 broadcast(jsonMessage.toJson());
             }
         }

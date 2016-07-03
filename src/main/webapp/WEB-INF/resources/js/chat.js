@@ -32,8 +32,8 @@ Chat.connect = (function (host) {
     Chat.socket.onmessage = function (event) {
         var message = JSON.parse(event.data);
         var type = message.type;
-        if (type === "message") {
-            Console.log(message.body);
+        if (type === "MESSAGE") {
+            Console.log("<i>" + message.textDate + "</i> : <b>" + message.author + "</b> : " + message.body);
         } else {
             UserList.log(message.body);
         }
@@ -68,7 +68,6 @@ var UserList = {}
 UserList.log = (function (userList) {
     var loggedUsers = document.getElementById('loggedUsers');
     var p = document.createElement('p');
-    p.style.wordWrap = 'break-word';
     p.innerHTML = userList;
     while (loggedUsers.firstChild) {
         loggedUsers.removeChild(loggedUsers.firstChild)
@@ -81,6 +80,7 @@ var Console = {};
 Console.log = (function (message) {
     var console = document.getElementById('console');
     var p = document.createElement('p');
+    p.style.wordWrap = 'break-word';
     p.innerHTML = message;
     console.appendChild(p);
     while (console.childNodes.length > 25) {

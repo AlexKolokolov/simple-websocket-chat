@@ -33,7 +33,7 @@ Chat.connect = (function (host) {
         var message = JSON.parse(event.data);
         var type = message.type;
         if (type === "MESSAGE") {
-            Console.log("<i>" + message.textDate + "</i> : <b>" + message.author + "</b> : " + message.body);
+            Console.log("<i>" + message.created + "</i> : <b>" + message.author + "</b> : " + message.body);
         } else {
             UserList.log(message.body);
         }

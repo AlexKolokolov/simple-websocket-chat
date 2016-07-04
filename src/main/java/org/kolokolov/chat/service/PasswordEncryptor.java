@@ -11,8 +11,9 @@ import org.springframework.stereotype.Component;
 public class PasswordEncryptor {
 
     public void encryptPassword(UserProfile user) {
-        String md5Hex = DigestUtils.md5Hex(user.getNickname() + user.getPassword());
-        user.setPassword(md5Hex);
+        String sha1Hex = DigestUtils.sha1Hex(user.getPassword() +
+                DigestUtils.sha1Hex(user.getNickname()));
+        user.setPassword(sha1Hex);
     }
 
 }

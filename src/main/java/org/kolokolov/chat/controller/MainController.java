@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.kolokolov.chat.model.UserProfile;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Created by Administrator on 17.02.2016.
  */
@@ -32,8 +34,12 @@ public class MainController {
     private PasswordEncryptor passwordEncryptor;
 
     @RequestMapping("/")
-    public ModelAndView index() {
-        return new ModelAndView("index", "user", new UserProfile());
+    public ModelAndView index(HttpSession session) {
+        UserProfile user = accountService.getAccountBySession(session.getId());
+        if (user == null || isLoggedIn(user)) {
+            return new ModelAndView("index", "user", new UserProfile());
+        }
+        return new ModelAndView("chat", "user", user);
     }
 
     @RequestMapping(value = "chat", method = RequestMethod.POST)
@@ -51,7 +57,7 @@ public class MainController {
     }
 
     @RequestMapping(value = "signUp", method = RequestMethod.POST)
-    public ModelAndView sigUp(@ModelAttribute("user") UserProfile user, BindingResult bindingResult) {
+    public ModelAndView sigUp(HttpSession session, @ModelAttribute("user") UserProfile user, BindingResult bindingResult) {
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
             return new ModelAndView("regform", "user", user);
@@ -59,6 +65,11 @@ public class MainController {
         user.setConfirmPassword(null);
         passwordEncryptor.encryptPassword(user);
         accountService.addAccount(user);
-        return new ModelAndView("regconfirm", "user", user);
+        accountService.addSessionForUser(user, session.getId());
+        return new ModelAndView("chat", "user", user);
+    }
+
+    private boolean isLoggedIn(UserProfile user) {
+        return Chat.getConnections().containsKey(user.getNickname());
     }
 }

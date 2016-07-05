@@ -1,24 +1,34 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
 #main {
-    width: 650px;
+    width: 80%;
+    height: 100%;
+    padding-left: 3%;
     float: left;
 }
 
 input#chat {
-    width: 610px
+    width: 96%;
+    margin-top: 2%;
 }
 
 #console-container {
-    width: 600px;
+    width: 100%;
+    height: 80%;
 }
 
 #console, #loggedUsers {
     border: 1px solid #CCCCCC;
     border-right-color: #999999;
     border-bottom-color: #999999;
-    height: 300px;
+    height: 98%;
     overflow-y: scroll;
     padding: 5px;
-    width: 100%;
+    width: 95%;
 }
 
 #console p, #loggedUsers p {
@@ -27,12 +37,14 @@ input#chat {
 }
 
 #aside {
+    height: 100%;
+    width: 17%;
     float: left;
 }
 
 #loggedUsers {
-    height: 340px;
-    width: 150px;
+    height: 85%;
+    width: 80%;
     margin-top: 25px;
 }
 

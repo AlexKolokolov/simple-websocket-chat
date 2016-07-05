@@ -73,6 +73,7 @@ UserList.log = (function (userList) {
         loggedUsers.removeChild(loggedUsers.firstChild)
     }
     loggedUsers.appendChild(p);
+    loggedUsers.scrollTop = loggedUsers.scrollHeight;
 });
 
 var Console = {};

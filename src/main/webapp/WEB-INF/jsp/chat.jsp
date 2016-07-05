@@ -25,19 +25,17 @@
     </head>
     <body>
         <div id="main">
-            <h2>Hello, ${user.nickname}!</h2>
+            <h2>Welcome to chat, ${user.nickname}!</h2>
             <div class="noscript">
                 <h2>Seems your browser doesn't support Javascript!
                 Websockets rely on Javascript being enabled.
                 Please enable Javascript and reload this page!</h2>
             </div>
+            <div id="console-container">
+                <div id="console"></div>
+            </div>
             <div>
-                <div id="console-container">
-                    <div id="console"></div>
-                </div>
-                <p>
-                    <input type="text" placeholder="type and press enter to chat" id="chat"/>
-                </p>
+                <input type="text" placeholder="type and press enter to chat" id="chat"/>
             </div>
         </div>
         <div id="aside">

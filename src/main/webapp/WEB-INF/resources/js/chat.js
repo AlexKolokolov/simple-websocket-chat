@@ -84,7 +84,7 @@ Console.log = (function (message) {
     p.style.wordWrap = 'break-word';
     p.innerHTML = message;
     console.appendChild(p);
-    while (console.childNodes.length > 25) {
+    while (console.childNodes.length > 50) {
         console.removeChild(console.firstChild);
     }
     console.scrollTop = console.scrollHeight;

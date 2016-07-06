@@ -30,6 +30,6 @@
                 </tr>
             </table>
         </form:form>
-        <a href="/regForm">Get registered!</a>
+        <a href="/regForm">Get registered</a>
     </body>
 </html>

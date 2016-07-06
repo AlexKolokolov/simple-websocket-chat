@@ -34,4 +34,8 @@ public class AccountService {
     public UserProfile getAccountBySession(String sessionId) {
         return SESSION_TO_PROFILE.get(sessionId);
     }
+
+    public void deleteSession(String sessionId) {
+        SESSION_TO_PROFILE.remove(sessionId);
+    }
 }

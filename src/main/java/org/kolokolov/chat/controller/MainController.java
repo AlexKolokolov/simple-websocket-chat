@@ -59,6 +59,12 @@ public class MainController {
         return new ModelAndView("regform", "user", new UserProfile());
     }
 
+    @RequestMapping(value = "logout")
+    public String logOut(HttpSession session) {
+        accountService.deleteSession(session.getId());
+        return "redirect:/";
+    }
+
     @RequestMapping(value = "signUp", method = RequestMethod.POST)
     public ModelAndView sigUp(HttpSession session, @ModelAttribute("user") UserProfile user, BindingResult bindingResult) {
         userValidator.validate(user, bindingResult);

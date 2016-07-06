@@ -30,7 +30,11 @@ public class LogInValidator implements Validator {
     public void validate(Object o, Errors errors) {
         UserProfile user = (UserProfile) o;
         UserProfile account = accountService.getAccountByLogin(user.getNickname());
-        if (account == null) {
+        if ("".equals(user.getNickname())) {
+            errors.rejectValue("nickname", "error.nickname", "You should enter nickname");
+        } else if ("".equals(user.getPassword())) {
+            errors.rejectValue("password", "error.password", "You should enter password");
+        } else if (account == null) {
             errors.rejectValue("nickname", "error.nickname", "There is no user with nickname " + user.getNickname());
         } else if (isLoggedIn(user)) {
             errors.rejectValue("nickname", "error.nickname", "User " + user.getNickname() + " is already logged in!");

@@ -27,7 +27,10 @@
     </head>
     <body>
         <div id="main">
-            <h2>Welcome to chat, ${user.nickname}!</h2>
+            <div id="header">
+                <h2>Welcome to chat, ${user.nickname}!</h2>
+                <a href="/logout" rel="Log out"><button>Log out</button></a>
+            </div>
             <div class="noscript">
                 <h2>Seems your browser doesn't support Javascript!
                 Websockets rely on Javascript being enabled.

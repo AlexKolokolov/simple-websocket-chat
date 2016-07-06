@@ -11,6 +11,19 @@ html, body {
     float: left;
 }
 
+#header {
+    height: 10%;
+}
+
+#header h2 {
+    float: left;
+}
+
+#header a {
+    padding: 20px;
+    float:left;
+}
+
 input#chat {
     width: 96%;
     margin-top: 2%;

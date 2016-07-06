@@ -35,19 +35,22 @@ public class MainController {
 
     @RequestMapping("/")
     public ModelAndView index(HttpSession session) {
+        System.out.println(session.getId());
         UserProfile user = accountService.getAccountBySession(session.getId());
-        if (user == null || isLoggedIn(user)) {
+        System.out.println(user);
+        if (user == null || logInValidator.isLoggedIn(user)) {
             return new ModelAndView("index", "user", new UserProfile());
         }
         return new ModelAndView("chat", "user", user);
     }
 
     @RequestMapping(value = "chat", method = RequestMethod.POST)
-    public ModelAndView chat(@ModelAttribute("user") UserProfile user, BindingResult bindingResult) {
+    public ModelAndView chat(HttpSession session, @ModelAttribute("user") UserProfile user, BindingResult bindingResult) {
         logInValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
             return new ModelAndView("index", "user", user);
         }
+        accountService.addSessionForUser(user, session.getId());
         return new ModelAndView("chat", "user", user);
     }
 
@@ -67,9 +70,5 @@ public class MainController {
         accountService.addAccount(user);
         accountService.addSessionForUser(user, session.getId());
         return new ModelAndView("chat", "user", user);
-    }
-
-    private boolean isLoggedIn(UserProfile user) {
-        return Chat.getConnections().containsKey(user.getNickname());
     }
 }

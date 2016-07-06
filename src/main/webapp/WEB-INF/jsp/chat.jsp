@@ -12,6 +12,8 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta http-equiv="Cache-Control" content="no-cache, must-revalidate, private, no-store, s-maxage=0, max-age=0" />
+        <meta http-equiv="Pragma" content="no-cache" />
         <title>Chat</title>
         <spring:url value="resources/js/chat.js" var="chatJs" />
         <spring:url value="resources/css/style.css" var="styleCss" />

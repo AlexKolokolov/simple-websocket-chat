@@ -1,16 +1,33 @@
 package org.kolokolov.chat.model;
 
-import org.springframework.stereotype.Component;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Created by kolokolov on 5/14/16.
  */
 
-@Component
+@Entity
+@Table(name="user_profile")
 public class UserProfile {
 
+    @Id
+    @Column(name="id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private int id;
+
+    @Column(name="nickname")
     private String nickname;
+
+    @Column(name="password")
     private String password;
+
+    @Transient
     private String confirmPassword;
 
     public UserProfile() {}
@@ -24,6 +41,14 @@ public class UserProfile {
         this.nickname = nickname;
         this.password = password;
         this.confirmPassword = confirmPassword;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNickname() {
@@ -52,6 +77,6 @@ public class UserProfile {
 
     @Override
     public String toString() {
-        return "UserProfile{'" + nickname + "'" + ", '" + password + "'" + "}";
+        return "UserProfile{'" + id + "','" + nickname + "', '" + password + "'}";
     }
 }

@@ -13,15 +13,17 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Component
 public class AccountService {
-    private final Map<String, UserProfile> LOGIN_TO_PROFILE;
     private final Map<String, UserProfile> SESSION_TO_PROFILE;
 
     @Autowired
-    HibernateDao dao;
+    private HibernateDao dao;
 
     public AccountService() {
-        LOGIN_TO_PROFILE = new ConcurrentHashMap<>();
         SESSION_TO_PROFILE = new ConcurrentHashMap<>();
+    }
+
+    public void setDao(HibernateDao dao) {
+        this.dao = dao;
     }
 
     public void addAccount(UserProfile user) {

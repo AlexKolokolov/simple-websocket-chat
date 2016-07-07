@@ -3,6 +3,7 @@ package org.kolokolov.chat.dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.kolokolov.chat.model.Message;
 import org.kolokolov.chat.model.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -33,8 +34,14 @@ public class HibernateDao {
     @Transactional
     public UserProfile getUserProfileByNickname(String nickname) {
         Session session = sessionFactory.openSession();
-        Query<UserProfile> query = session.createQuery("FROM UserProfile U WHERE U.nickname = :nick", UserProfile.class);
-        query.setParameter("nick", nickname);
+        Query<UserProfile> query = session.createQuery("FROM UserProfile U WHERE U.nickname = ':nickname'", UserProfile.class);
+        query.setParameter("nickname", nickname);
         return query.uniqueResult();
+    }
+
+    @Transactional
+    public void saveMessage(Message message) {
+        Session session = sessionFactory.openSession();
+        session.save(message);
     }
 }

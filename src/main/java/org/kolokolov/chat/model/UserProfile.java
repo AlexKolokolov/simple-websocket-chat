@@ -1,34 +1,33 @@
 package org.kolokolov.chat.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by kolokolov on 5/14/16.
  */
 
 @Entity
-@Table(name="user_profile")
+@Table(name = "user_profile")
 public class UserProfile {
 
     @Id
-    @Column(name="id")
+    @Column(name = "id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="nickname")
+    @Column(name = "nickname")
     private String nickname;
 
-    @Column(name="password")
+    @Column(name = "password")
     private String password;
 
     @Transient
     private String confirmPassword;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created")
+    private Date created;
 
     public UserProfile() {}
 
@@ -41,6 +40,7 @@ public class UserProfile {
         this.nickname = nickname;
         this.password = password;
         this.confirmPassword = confirmPassword;
+        this.created = new Date();
     }
 
     public int getId() {
@@ -73,6 +73,14 @@ public class UserProfile {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
     @Override

@@ -21,12 +21,26 @@
         <property name="suffix" value=".jsp" />
     </bean>
 
+    <!--
     <bean name="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" >
         <property name="url" value ="jdbc:mysql://127.0.0.1:3306/mychat" />
         <property name="username" value="root" />
         <property name="password" value="root" />
         <property name="initialSize" value="2" />
         <property name="maxTotal" value="10" />
+    </bean>
+    -->
+
+    <bean name="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="jdbc/mychat" />
+        <property name="resourceRef" value="true" />
+    </bean>
+
+    <bean name="serverDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://127.10.164.2:3306/mychat" />
+        <property name="username" value="adminpIPw6Fv" />
+        <property name="password" value="pXLl-I33g1pt" />
     </bean>
 
     <bean name="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">

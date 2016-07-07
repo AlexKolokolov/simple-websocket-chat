@@ -21,30 +21,38 @@
         <property name="suffix" value=".jsp" />
     </bean>
 
-    <!--
-    <bean name="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" >
+
+    <bean name="localDataSource" class="org.apache.commons.dbcp2.BasicDataSource" >
         <property name="url" value ="jdbc:mysql://127.0.0.1:3306/mychat" />
         <property name="username" value="root" />
         <property name="password" value="root" />
         <property name="initialSize" value="2" />
         <property name="maxTotal" value="10" />
     </bean>
-    -->
 
-    <bean name="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+    <bean name="localDataSource2" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/mychat" />
+        <property name="username" value="root" />
+        <property name="password" value="root" />
+    </bean>
+
+    <!--
+    <bean name="jndiDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
         <property name="jndiName" value="jdbc/mychat" />
         <property name="resourceRef" value="true" />
     </bean>
+    -->
 
     <bean name="serverDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://127.10.164.2:3306/mychat" />
-        <property name="username" value="adminpIPw6Fv" />
-        <property name="password" value="pXLl-I33g1pt" />
+        <property name="url" value="jdbc:mysql://127.4.183.130:3306/mychat" />
+        <property name="username" value="admin9c6sfyD" />
+        <property name="password" value="zkJJvMuKtmDj" />
     </bean>
 
     <bean name="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
+        <property name="dataSource" ref="localDataSource"/>
         <property name="packagesToScan" value="org.kolokolov.chat.model"/>
         <property name="hibernateProperties">
             <value>

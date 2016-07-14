@@ -1,6 +1,5 @@
 package org.kolokolov.chat.validator;
 
-import org.kolokolov.chat.controller.Chat;
 import org.kolokolov.chat.model.UserProfile;
 import org.kolokolov.chat.service.AccountService;
 import org.kolokolov.chat.service.PasswordEncryptor;
@@ -36,8 +35,8 @@ public class LogInValidator implements Validator {
             errors.rejectValue("password", "error.password", "You should enter password");
         } else if (account == null) {
             errors.rejectValue("nickname", "error.nickname", "There is no user with nickname " + user.getNickname());
-        } else if (isLoggedIn(user)) {
-            errors.rejectValue("nickname", "error.nickname", "User " + user.getNickname() + " is already logged in!");
+//        } else if (isLoggedIn(user)) {
+//            errors.rejectValue("nickname", "error.nickname", "User " + user.getNickname() + " is already logged in!");
         } else {
             passwordEncryptor.encryptPassword(user);
             if (!account.getPassword().equals(user.getPassword())) {
@@ -45,7 +44,7 @@ public class LogInValidator implements Validator {
             }
         }
     }
-    public boolean isLoggedIn(UserProfile user) {
-        return Chat.getConnections().containsKey(user.getNickname());
-    }
+//    public boolean isLoggedIn(UserProfile user) {
+//        return Chat.getConnections().containsKey(user.getNickname());
+//    }
 }

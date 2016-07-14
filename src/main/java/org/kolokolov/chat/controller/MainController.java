@@ -36,9 +36,9 @@ public class MainController {
     @RequestMapping("/")
     public ModelAndView index(HttpSession session) {
         UserProfile user = accountService.getAccountBySession(session.getId());
-        if (user == null || logInValidator.isLoggedIn(user)) {
-            return new ModelAndView("index", "user", new UserProfile());
-        }
+//        if (user == null || logInValidator.isLoggedIn(user)) {
+//            return new ModelAndView("index", "user", new UserProfile());
+//        }
         return new ModelAndView("chat", "user", user);
     }
 

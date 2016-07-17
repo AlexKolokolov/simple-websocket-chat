@@ -1,101 +1,88 @@
 /**
  * Created by kolokolov on 7/1/16.
  */
-var Chat = {};
+$(document).ready(function() {
 
-Chat.socket = null;
+    $('.noscript').empty();
 
-Chat.connect = (function (host) {
-    if ('WebSocket' in window) {
-        Chat.socket = new WebSocket(host);
-    } else if ('MozWebSocket' in window) {
-        Chat.socket = new MozWebSocket(host);
-    } else {
-        Console.log('Error: WebSocket is not supported by this browser.');
-        return;
-    }
+    var Console = {};
+    Console.printMessage = function(message) {
+        $('#console').append('<p>' + message + '</p>');
+        while ($('#console').children('p').length > 50) {
+            $('#console').children('p').first().remove();
+        }
+    };
 
-    Chat.socket.onopen = function () {
-        Console.log('Info: WebSocket connection opened.');
-        document.getElementById('chat').onkeydown = function (event) {
+    var UserList = {};
+    UserList.displayUsers = function(userList) {
+        var $loggedUsers = $('#loggedUsers');
+        $loggedUsers.empty();
+        $loggedUsers.append('<p>' + userList + '</p>');
+    };
+
+    var Chat = {};
+
+    Chat.connect = function (host) {
+        if ('WebSocket' in window) {
+            Chat.socket = new WebSocket(host);
+        } else if ('MozWebSocket' in window) {
+            Chat.socket = new MozWebSocket(host);
+        } else {
+            Console.printMessage('Error: WebSocket is not supported by this browser.');
+            return;
+        }
+    };
+
+    Chat.initialize = function () {
+        var wsPort = '';
+        var wssPort = '';
+        var locationHost = window.location.host;
+        if (locationHost != 'localhost:8080') {
+            wsPort = ':8000';
+            wssPort = ':8443';
+        }
+        if (window.location.protocol == 'http:') {
+            Chat.connect('ws://' + locationHost + wsPort + '/websocket/chat');
+        } else {
+            Chat.connect('wss://' + locationHost + wssPort + '/websocket/chat');
+        }
+    };
+
+    Chat.initialize();
+
+    var $chat = $('#chat');
+
+    Chat.socket.onopen = function() {
+        Console.printMessage('Info: WebSocket connection opened.');
+        $chat.keydown(function(event) {
             if (event.keyCode == 13) {
-                Chat.sendMessage();
+                Chat.socket.sendMessage();
             }
-        };
+        });
     };
 
-    Chat.socket.onclose = function () {
-        document.getElementById('chat').onkeydown = null;
-        Console.log('Info: WebSocket closed.');
+    Chat.socket.onclose = function() {
+        Console.printMessage('Info: WebSocket closed.');
+        $chat.keydown(function() {
+            return null;
+        });
     };
 
-    Chat.socket.onmessage = function (event) {
+    Chat.socket.onmessage = function(event) {
         var message = JSON.parse(event.data);
         var type = message.type;
         if (type === "MESSAGE") {
-            Console.log("<i>" + message.created + "</i> : <b>" + message.author + "</b> : " + message.body);
+            Console.printMessage("<i>" + message.created + "</i> : <b>" + message.author + "</b> : " + message.body);
         } else {
-            UserList.log(message.body);
+            UserList.displayUsers(message.body);
+        }
+    };
+
+    Chat.socket.sendMessage = function() {
+        var message = $chat.val();
+        if (message != '') {
+            Chat.socket.send(message);
+            $chat.val('');
         }
     };
 });
-
-Chat.initialize = function () {
-    var wsPort = '';
-    var wssPort = '';
-    var locationHost = window.location.host;
-    if (locationHost != 'localhost:8080') {
-        wsPort = ':8000';
-        wssPort = ':8443';
-    }
-    if (window.location.protocol == 'http:') {
-        Chat.connect('ws://' + locationHost + wsPort + '/websocket/chat/' + nickname);
-    } else {
-        Chat.connect('wss://' + locationHost + wssPort + '/websocket/chat/' +  + nickname);
-    }
-};
-
-Chat.sendMessage = (function () {
-    var message = document.getElementById('chat').value;
-    if (message != '') {
-        Chat.socket.send(message);
-        document.getElementById('chat').value = '';
-    }
-});
-
-var UserList = {}
-
-UserList.log = (function (userList) {
-    var loggedUsers = document.getElementById('loggedUsers');
-    var p = document.createElement('p');
-    p.innerHTML = userList;
-    while (loggedUsers.firstChild) {
-        loggedUsers.removeChild(loggedUsers.firstChild)
-    }
-    loggedUsers.appendChild(p);
-    loggedUsers.scrollTop = loggedUsers.scrollHeight;
-});
-
-var Console = {};
-
-Console.log = (function (message) {
-    var console = document.getElementById('console');
-    var p = document.createElement('p');
-    p.style.wordWrap = 'break-word';
-    p.innerHTML = message;
-    console.appendChild(p);
-    while (console.childNodes.length > 50) {
-        console.removeChild(console.firstChild);
-    }
-    console.scrollTop = console.scrollHeight;
-});
-
-Chat.initialize();
-
-document.addEventListener("DOMContentLoaded", function () {
-    // Remove elements with "noscript" class - <noscript> is not allowed in XHTML
-    var noscripts = document.getElementsByClassName("noscript");
-    for (var i = 0; i < noscripts.length; i++) {
-        noscripts[i].parentNode.removeChild(noscripts[i]);
-    }
-}, false);

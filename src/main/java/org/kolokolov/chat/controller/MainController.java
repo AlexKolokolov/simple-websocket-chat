@@ -36,9 +36,11 @@ public class MainController {
     @RequestMapping("/")
     public ModelAndView index(HttpSession session) {
         UserProfile user = accountService.getAccountBySession(session.getId());
-//        if (user == null || logInValidator.isLoggedIn(user)) {
-//            return new ModelAndView("index", "user", new UserProfile());
-//        }
+        if (user == null || logInValidator.isLoggedIn(user)) {
+            return new ModelAndView("index", "user", new UserProfile());
+        }
+//        UserProfile user = new UserProfile("Alex", "qqqq");
+        session.setAttribute("user", user);
         return new ModelAndView("chat", "user", user);
     }
 
@@ -48,6 +50,7 @@ public class MainController {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("index", "user", user);
         }
+        session.setAttribute("user", user);
         accountService.addSessionForUser(user, session.getId());
         return new ModelAndView("chat", "user", user);
     }

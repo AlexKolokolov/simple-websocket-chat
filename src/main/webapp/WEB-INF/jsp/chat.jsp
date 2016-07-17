@@ -15,57 +15,12 @@
         <meta http-equiv="Cache-Control" content="no-cache, must-revalidate, private, no-store, s-maxage=0, max-age=0" />
         <meta http-equiv="Pragma" content="no-cache" />
         <title>Chat</title>
-        <script type="application/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-        <%--<spring:url value="resources/js/chat.js" var="chatJs" />--%>
-        <script>
-            $(document).ready(function() {
-
-                var Chat = {};
-                Chat.socket = new WebSocket("ws://localhost:8080/websocket/chat");
-                var $chat = $('#chat');
-
-                Chat.socket.onopen = function() {
-                    Console.printMessage('Info: WebSocket connection opened.');
-                    $chat.keydown(function(event) {
-                        if (event.keyCode == 13) {
-                            Chat.socket.sendMessage();
-                        }
-                    });
-                };
-
-                Chat.socket.onclose = function() {
-                    Console.printMessage('Info: WebSocket closed.');
-                    $chat.keydown(function() {
-                        return null;
-                    });
-                };
-
-                Chat.socket.onmessage = function(event) {
-                    Console.printMessage(event.data);
-                };
-
-                Chat.socket.sendMessage = function() {
-                    var message = $chat.val();
-                    if (message != '') {
-                        Chat.socket.send(message);
-                        $chat.val('');
-                    }
-                };
-
-                var Console = {};
-                Console.printMessage = function(message) {
-                    $('#console').append('<p>' + message + '</p>');
-                };
-
-            });
-        </script>
+        <spring:url value="resources/js/jquery-3.1.0.min.js" var="jQuery" />
+        <spring:url value="resources/js/chat.js" var="chatJs" />
+        <script type="application/javascript" src="${jQuery}"></script>
+        <script type="application/javascript" src="${chatJs}"></script>
         <spring:url value="resources/css/style.css" var="styleCss" />
         <link rel="stylesheet" type="text/css" href="${styleCss}" />
-
-        <script type="application/javascript" >
-            var nickname = '${user.nickname}';
-        </script>
-        <script type="application/javascript" src="${chatJs}"></script>
 
     </head>
     <body>
